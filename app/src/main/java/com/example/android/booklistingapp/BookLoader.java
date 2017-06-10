@@ -24,7 +24,6 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
     @Override
     public List<Book> loadInBackground() {
         if (mQuery == null || mMaxResults < 1) return null;
-        List<Book> books = Utils.fetchBookData(mQuery, mMaxResults);
-        return books;
+        return Utils.fetchBookData(mQuery, mMaxResults);
     }
 }

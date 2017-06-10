@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String QUERY_KEY = "query";
     private static final String MAX_RESULTS_KEY = "maxResults";
     private static final int LOADER_ID = 1;
-    private static int MAX_RESULTS = 20;
+    private static final int MAX_RESULTS = 20;
     private TextView mEmptyStateView;
     private BookAdapter mAdapter;
 

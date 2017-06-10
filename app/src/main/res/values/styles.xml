@@ -41,10 +41,8 @@
 
     <style name="list_item_container" parent="fit_parent">
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingEnd">@dimen/padding</item>
         <item name="android:paddingLeft">@dimen/padding</item>
         <item name="android:paddingRight">@dimen/padding</item>
-        <item name="android:paddingStart">@dimen/padding</item>
     </style>
 
     <style name="list_item_textviews_container" parent="fit_width">

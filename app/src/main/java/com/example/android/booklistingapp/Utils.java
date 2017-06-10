@@ -40,8 +40,7 @@ public class Utils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
-        List<Book> bookResults = parseBookJSON(jsonResponse);
-        return bookResults;
+        return parseBookJSON(jsonResponse);
     }
 
     private static URL generateSearchUrl(String query, int maxResults) {
