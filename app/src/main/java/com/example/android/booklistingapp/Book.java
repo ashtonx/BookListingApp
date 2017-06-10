@@ -19,32 +19,16 @@ public class Book {
         return mTitle;
     }
 
-    public void setTitle(String title) {
-        this.mTitle = title;
-    }
-
     public String getSubtitle() {
         return mSubtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.mSubtitle = subtitle;
     }
 
     public ArrayList<String> getAuthors() {
         return mAuthors;
     }
 
-    public void setAuthors(ArrayList<String> authors) {
-        this.mAuthors = authors;
-    }
-
     public String getInfoLink() {
         return mInfoLink;
-    }
-
-    public void setInfoLink(String infoLink) {
-        this.mInfoLink = infoLink;
     }
 
 
