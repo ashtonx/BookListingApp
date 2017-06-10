@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/book_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textSize="16sp"
-        tools:text="TITLE"/>
-    <TextView
-        android:id="@+id/authors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textSize="12sp"/>
+              style="@style/list_item_container">
+
+    <LinearLayout
+        style="@style/list_item_textviews_container">
+
+        <TextView
+            android:id="@+id/book_title"
+            tools:text="TITLE"
+            style="@style/book_title"/>
+
+        <TextView
+            android:id="@+id/authors"
+            style="@style/authors"/>
+    </LinearLayout>
 
 </LinearLayout>
