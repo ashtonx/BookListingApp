@@ -8,8 +8,8 @@
 
         <TextView
             android:id="@+id/book_title"
-            tools:text="TITLE"
-            style="@style/book_title"/>
+            style="@style/book_title"
+            tools:text="TITLE"/>
 
         <TextView
             android:id="@+id/authors"

@@ -23,13 +23,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    private static int MAX_RESULTS = 20;
     private static final String QUERY_KEY = "query";
-    private static final String MAX_RESULTS_KEY="maxResults";
+    private static final String MAX_RESULTS_KEY = "maxResults";
     private static final int LOADER_ID = 1;
-
+    private static int MAX_RESULTS = 20;
     private TextView mEmptyStateView;
     private BookAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        if(getIntent() !=null){
+        if (getIntent() != null) {
             handleIntent(getIntent());
         }
     }
 
-    private void handleIntent (Intent intent){
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
             Bundle bundle = new Bundle();

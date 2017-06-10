@@ -16,7 +16,6 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/progress_bar"
-        />
+        style="@style/progress_bar"/>
 
 </RelativeLayout>
