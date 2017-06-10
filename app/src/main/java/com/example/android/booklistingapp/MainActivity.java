@@ -1,6 +1,7 @@
 package com.example.android.booklistingapp;
 
 import android.app.LoaderManager;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
@@ -9,11 +10,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,12 +23,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
-    private String searchString;
-    private static int MAX_RESULTS = 5;
+    private static int MAX_RESULTS = 20;
+    private static final String QUERY_KEY = "query";
+    private static final String MAX_RESULTS_KEY="maxResults";
+    private static final int LOADER_ID = 1;
 
     private TextView mEmptyStateView;
     private BookAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,43 +51,46 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        final EditText mSearchEditText = (EditText) findViewById(R.id.search_field);
-        mSearchEditText.setOnEditorActionListener(
-                new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_SEND) {
-                            if (v.getText().toString().trim() != null) {
-                                if ()
-                                searchString = v.getText().toString().trim();
-                                updateResults();
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-                }
-        );
-
+        if(getIntent() !=null){
+            handleIntent(getIntent());
+        }
     }
 
-    private void updateResults() {
+    private void handleIntent (Intent intent){
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())){
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            Bundle bundle = new Bundle();
+            bundle.putString(QUERY_KEY, query);
+            bundle.putInt(MAX_RESULTS_KEY, MAX_RESULTS);
+
+            performSearch(bundle);
+        }
+    }
+
+    private void performSearch(Bundle bundle) {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             ProgressBar progressBarView = (ProgressBar) findViewById(R.id.progress_bar);
             progressBarView.setVisibility(View.VISIBLE);
             LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(1, null, this);
+            loaderManager.initLoader(LOADER_ID, bundle, this);
         } else {
             mEmptyStateView.setText(getString(R.string.no_internet));
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
 
     @Override
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
-        return new BookLoader(this, searchString, MAX_RESULTS);
+        String query = args.getString(QUERY_KEY);
+        int maxResults = args.getInt(MAX_RESULTS_KEY);
+        return new BookLoader(this, query, maxResults);
     }
 
     @Override
@@ -101,5 +105,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<List<Book>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
     }
 }
