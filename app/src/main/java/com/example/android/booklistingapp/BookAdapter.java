@@ -22,22 +22,26 @@ public class BookAdapter extends ArrayAdapter<Book> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder;
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+            holder = new ViewHolder();
+            holder.title = (TextView) convertView.findViewById(R.id.book_title);
+            holder.authors = (TextView) convertView.findViewById(R.id.authors);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         Book currBook = getItem(position);
 
-        //title
-        TextView title = (TextView) convertView.findViewById(R.id.book_title);
         String titleString = "";
         if (currBook.getTitle() != null) titleString += currBook.getTitle();
         if (currBook.getSubtitle() != null && !currBook.getSubtitle().isEmpty())
             titleString += TITLE_SUB_SEPARATOR + currBook.getSubtitle();
-        title.setText(titleString);
+        holder.title.setText(titleString);
 
-        //authors
-        TextView authors = (TextView) convertView.findViewById(R.id.authors);
         String authorsString = "";
         if (currBook.getAuthors() != null && !currBook.getAuthors().isEmpty()) {
             authorsString = currBook.getAuthors().get(0);
@@ -47,8 +51,13 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 }
             }
         }
-        authors.setText(authorsString);
+        holder.authors.setText(authorsString);
 
         return convertView;
+    }
+
+    private static class ViewHolder {
+        TextView title;
+        TextView authors;
     }
 }
